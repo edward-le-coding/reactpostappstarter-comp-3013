@@ -36,9 +36,17 @@ export const Router = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route element={<Layout />}>
-        <Route path="login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route
-          path="posts"
+          path="/posts/create"
+          element={
+            <ProtectedRoute isAllowed={!!authCheck}>
+              <CreatePostPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/posts"
           element={
             <ProtectedRoute isAllowed={!!authCheck}>
               <PostPage />
@@ -54,14 +62,6 @@ export const Router = () => {
             </ProtectedRoute>
           }
           loader={postDetailsLoader}
-        />
-        <Route
-          path="/posts/create"
-          element={
-            <ProtectedRoute isAllowed={!!authCheck}>
-              <CreatePostPage />
-            </ProtectedRoute>
-          }
         />
         <Route path="/" element={<Landing />} />
         <Route path="*" element={<NotFound />} />

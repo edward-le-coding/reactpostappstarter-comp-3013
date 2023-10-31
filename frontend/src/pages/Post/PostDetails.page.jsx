@@ -1,10 +1,17 @@
+import { Link } from "react-router-dom";
 import DOMAIN from "../../services/endpoint";
 import axios from "axios";
+import { Button, Container } from "@mantine/core";
 
 function PostDetailsPage() {
   return (
     <>
-      <p>This page shows post details!</p>
+      <Container>
+        <p>This page shows post details!</p>
+        <Button>
+          <Link to="/posts">Back to Posts</Link>
+        </Button>
+      </Container>
     </>
   );
 }

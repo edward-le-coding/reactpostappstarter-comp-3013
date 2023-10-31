@@ -6,11 +6,10 @@ import { useLoaderData } from "react-router-dom";
 
 export const PostPage = () => {
   const posts = useLoaderData();
-
   return (
     <Container>
       <SimpleGrid cols={3}>
-        {posts.map((post) => (
+        {posts?.map((post) => (
           <ArticleCardImage key={post.title} {...post} />
         ))}
       </SimpleGrid>
@@ -20,5 +19,6 @@ export const PostPage = () => {
 
 export const postsLoader = async () => {
   const res = await axios.get(`${DOMAIN}/api/posts`);
+  console.log("I ran!");
   return res.data;
 };

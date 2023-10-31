@@ -44,4 +44,5 @@ const createAuthStore = (set, get) => ({
     }
   },
 });
+
 export default createAuthStore;
