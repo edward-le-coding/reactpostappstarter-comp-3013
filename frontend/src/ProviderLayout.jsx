@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import DrawerProvider from "./Contexts/drawerContext";
 export default ({ children }) => {
-  const [colorScheme, setColorScheme] = React.useState('dark');
+  const [colorScheme, setColorScheme] = React.useState('light');
   const themeOverride = createTheme({
     fontFamily: "Verdana, sans-serif",
     white: "#FAFAFA",
@@ -22,12 +22,11 @@ export default ({ children }) => {
     },
     titleFontSize: rem(32),
     cardHeight: rem(440),
-    colorScheme: colorScheme,
   });
   return (
     <>
       <ColorSchemeContext.Provider value={{ colorScheme, onChange: setColorScheme }}>
-        <MantineProvider theme={mergeMantineTheme(DEFAULT_THEME, themeOverride)} withGlobalStyles withNormalizeCSS>
+        <MantineProvider theme={mergeMantineTheme(DEFAULT_THEME, themeOverride)} forceColorScheme={colorScheme} withGlobalStyles withNormalizeCSS >
           <DrawerProvider>{children}</DrawerProvider>
         </MantineProvider>
       </ColorSchemeContext.Provider>
