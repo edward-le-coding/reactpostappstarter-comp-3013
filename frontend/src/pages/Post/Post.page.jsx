@@ -1,24 +1,29 @@
 import DOMAIN from "../../services/endpoint";
 import axios from "axios";
 import { ArticleCardImage } from "../../components/misc/ArticleCardImage";
-import { SimpleGrid, Container } from "@mantine/core";
-import { useLoaderData } from "react-router-dom";
+import { SimpleGrid, Container, Loader } from "@mantine/core";
+import { Await, defer, useLoaderData } from "react-router-dom";
+import React from "react";
 
 export const PostPage = () => {
   const posts = useLoaderData();
   return (
     <Container>
-      <SimpleGrid cols={3}>
-        {posts?.map((post) => (
-          <ArticleCardImage key={post.title} {...post} />
-        ))}
-      </SimpleGrid>
-    </Container>
+      <React.Suspense fallback={<Loader color="blue" />}>
+        <SimpleGrid cols={3}>
+          <Await resolve={posts.res}>
+            {(res) => res.data.map((post) => (
+              <ArticleCardImage key={post.title} {...post} />
+            ))}
+          </Await>
+        </SimpleGrid>
+      </React.Suspense>
+    </Container >
   );
 };
 
 export const postsLoader = async () => {
-  const res = await axios.get(`${DOMAIN}/api/posts`);
+  const res = axios.get(`${DOMAIN}/api/posts`);
   console.log("I ran!");
-  return res.data;
+  return defer({ res });
 };
