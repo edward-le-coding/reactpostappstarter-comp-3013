@@ -42,6 +42,17 @@ app.post("/api/user/validation", (req, res) => {
   }
 });
 
+app.get("/api/users/:id", (req, res) => {
+  try {
+    const user = findUserById(Number(req.params.id));
+    console.log(user);
+    const username = user.email.split("@")[0]
+    res.json({ username: username });
+  } catch (error) {
+    res.status(404).json({error})
+  }
+});
+
 app.get("/api/posts", async (req, res) => {
   // Sleep delay goes here
   sleep(5000).then(() => {res.json(posts)});
@@ -49,9 +60,8 @@ app.get("/api/posts", async (req, res) => {
 
 // ⭐️ TODO: Implement this yourself
 app.get("/api/posts/:id", (req, res) => {
-  const id = req.params.id;
-  // The line below should be fixed.
-  res.json(posts[0]);
+  const id = Number(req.params.id) - 1;
+  res.json(posts[id]);
 });
 
 /**
