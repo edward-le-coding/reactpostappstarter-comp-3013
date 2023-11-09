@@ -29,6 +29,7 @@ export const Router = () => {
    * /login - Login Page
    * /posts - See All Posts
    * /posts/:id - See details of a specific post
+   * /posts/edit/:id - Edit a post
    * /posts/create - Create a post
    *
    * /<unknown> - 404 Not Found
@@ -39,6 +40,14 @@ export const Router = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/posts/create"
+          element={
+            <ProtectedRoute isAllowed={!!authCheck}>
+              <CreatePostPage />
+            </ProtectedRoute>
+          }
+        />
+          <Route
+          path="/posts/edit/:id"
           element={
             <ProtectedRoute isAllowed={!!authCheck}>
               <CreatePostPage />

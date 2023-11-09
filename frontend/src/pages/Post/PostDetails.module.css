@@ -1,0 +1,26 @@
+.postDescriptionBox{
+    border: 0.5em;
+    border-color: black;
+    margin-right: 0.5em;
+}
+
+.postDetailsBox{
+    display: flex;
+    flex-direction: row;
+}
+
+.footerButtons {
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.5em;
+}
+.category {
+    font-style: italic;
+}
+
+.postImage {
+    border-radius: 5%;
+}
+button {
+    margin-right: 0.5em;
+}

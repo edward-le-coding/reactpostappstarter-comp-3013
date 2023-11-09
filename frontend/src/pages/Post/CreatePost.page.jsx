@@ -2,10 +2,13 @@ import { TextInput, Button, Group, Box } from "@mantine/core";
 import DOMAIN from "../../services/endpoint";
 import axios from "axios";
 import { useForm } from "@mantine/form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useLoaderData } from "react-router-dom";
 
 function CreatePostPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isEdit = location.pathname.includes("/edit/");
+  console.log(location);
   const form = useForm({
     initialValues: {
       title: "",
@@ -15,8 +18,19 @@ function CreatePostPage() {
     },
   });
 
+  if (isEdit){
+    const post = useLoaderData();
+    form.setValues(post);
+  }
   const handleSubmit = async (values) => {
-    const res = await axios.post(`${DOMAIN}/api/posts`, values);
+    let endpoint = "";
+    if (!isEdit){ 
+      endpoint = `${DOMAIN}/api/posts`;
+    } else {
+      const id = location.pathname.split("/edit/")[1];
+      endpoint = `${DOMAIN}/api/posts/edit/${id}`
+    }
+    const res = await axios.post(endpoint, values);
     if (res?.data.success) {
       navigate("/posts");
     }
@@ -55,5 +69,11 @@ function CreatePostPage() {
     </Box>
   );
 }
+
+export const postDetailsLoader = async ({ params }) => {
+  const post = await axios.get(`${DOMAIN}/api/posts/${params.id}`);
+  return post.data;
+};
+
 
 export default CreatePostPage;
