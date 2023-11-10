@@ -45,7 +45,9 @@ export const editPost = (post: any, id: number) => {
   //  Issues:
   //  *     The request body contains the title, category, and image,
   //  *     but the addPost function needs to add the id of the currently logged in user to the post.
+  console.log(post);
   post.userId = 2;
+  post.id = id + 1;
   posts[id] = post;
 };
 

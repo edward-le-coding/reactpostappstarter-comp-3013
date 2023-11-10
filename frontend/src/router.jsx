@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import { PostPage, postsLoader } from "./pages/Post/Post.page";
 import { postDetailsLoader } from "./pages/Post/PostDetails.page";
+import { editPostDetailsLoader } from "./pages/Post/CreatePost.page";
 import PostDetailsPage from "./pages/Post/PostDetails.page";
 
 export const Router = () => {
@@ -53,6 +54,7 @@ export const Router = () => {
               <CreatePostPage />
             </ProtectedRoute>
           }
+          loader={editPostDetailsLoader}
         />
         <Route
           path="/posts"

@@ -9,7 +9,7 @@ export const PostPage = () => {
   const posts = useLoaderData();
   return (
     <Container>
-      <React.Suspense fallback={<Loader color="blue" />}>
+      <React.Suspense fallback={<Loader color="blue" m="50%"/>}>
         <SimpleGrid cols={3}>
           <Await resolve={posts.res}>
             {(res) => res.data.map((post) => (

@@ -8,31 +8,31 @@ function CreatePostPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const isEdit = location.pathname.includes("/edit/");
-  console.log(location);
+  const post = useLoaderData();
+  console.log(post);
   const form = useForm({
     initialValues: {
-      title: "",
-      category: "",
-      image: "",
-      content: "",
+      title: isEdit? post.title: "",
+      category: isEdit? post.category: "",
+      image: isEdit? post.image: "",
+      content: isEdit? post.content: "",
     },
   });
-
-  if (isEdit){
-    const post = useLoaderData();
-    form.setValues(post);
-  }
   const handleSubmit = async (values) => {
     let endpoint = "";
     if (!isEdit){ 
       endpoint = `${DOMAIN}/api/posts`;
+      const res = await axios.post(endpoint, values);
+      if (res?.data.success) {
+        navigate("/posts");
+      }
     } else {
       const id = location.pathname.split("/edit/")[1];
       endpoint = `${DOMAIN}/api/posts/edit/${id}`
-    }
-    const res = await axios.post(endpoint, values);
-    if (res?.data.success) {
-      navigate("/posts");
+      const res = await axios.post(endpoint, values);
+      if (res?.data.success) {
+        navigate(`/posts/${id}`);
+      }
     }
   };
 
@@ -70,7 +70,7 @@ function CreatePostPage() {
   );
 }
 
-export const postDetailsLoader = async ({ params }) => {
+export const editPostDetailsLoader = async ({ params }) => {
   const post = await axios.get(`${DOMAIN}/api/posts/${params.id}`);
   return post.data;
 };
